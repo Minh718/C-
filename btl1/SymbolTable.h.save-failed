@@ -1,0 +1,213 @@
+#include "SymbolTable.h"
+
+void SymbolTable::run(string filename)
+{
+    ifstream fs(filename);
+    string s;
+    int k = 0,begin = 0;
+    while(getline(fs,s))
+    {
+        k++;
+    }
+    ifstream ifs(filename);
+    string* identifier = new string[k];
+    string* variable = new string[k];
+    string* value = new string[k];
+    int *STT{new int[k]};
+
+    k=0;
+    while(!ifs.eof())
+    {
+        string p;
+        getline(ifs,s);
+        int x = s.length();
+        for(int i=0; i<x; i++)
+        {
+            p+=s[i];
+            if(s[i+1]==' '||x==i+1)
+            {
+                if(p=="INSERT")
+                {
+                    STT[k] = begin;
+                    i+=2;
+                    for(; i<x; i++)
+                    {
+                        identifier[k]+=s[i];
+                        if(s[i+1]==' ')
+                        {
+                            i+=2;
+                            for(int j=0; j<k; j++)
+                            {
+                                if(identifier[k]==identifier[j]&&begin == STT[j])
+                                {
+                                    Redeclared error(s);
+                                    throw error;
+                                }
+                                else if(identifier[k]==identifier[j]&&begin != STT[j])
+                                {
+                                    STT[j] = begin;
+                                    for(; i<x; i++)
+                                    {
+                                        variable[j]+=s[i];
+                                    }
+                                    identifier[k] = "";
+                                    k--;
+                                }
+                            }
+                            cout<<"success"<<endl;
+                            for(; i<x; i++)
+                            {
+                                variable[k]+=s[i];
+                            }
+                            k++;
+                        }
+                    }
+                }
+                else if(p=="ASSIGN")
+                {
+                    p="";
+                    i+=2;
+                    for(; i<x; i++)
+                    {
+                        p+=s[i];
+                        if(s[i+1]==' ')
+                        {
+                            i+=2;
+                            bool check = true;
+                            for(int j=0; j<k; j++)
+                            {
+                                if(p==identifier[j])
+                                {
+                                    check = false;
+                                    p="";
+                                    if(variable[j]=="string")
+                                    {
+                                        if(s[i]=='\'')
+                                        {
+                                            i++;
+                                            for(; i<x; i++)
+                                            {
+                                                if(s[i]!=' '&& (s[i]<'A'||s[i]>'Z')&& (s[i]<'a'||s[i]>'z')&&(s[i]<'0'||s[i]>'9'))
+                                                {
+                                                    TypeMismatch error(s);
+                                                    throw error;
+                                                }
+                                                if(s[i+1]=='\'')
+                                                {
+                                                    i++;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            TypeMismatch error(s);
+                                            throw error;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(s[i]!='\'')
+                                        {
+                                            for(; i<x; i++)
+                                            {
+                                                if(s[i]<'0'||s[i]>'9')
+                                                {
+                                                    TypeMismatch error(s);
+                                                    throw error;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            TypeMismatch error(s);
+                                            throw error;
+                                        }
+                                    }
+                                    cout<<"success"<<endl;
+                                }
+                            }
+                            if(check)
+                            {
+                                Undeclared error(s);
+                                throw error;
+                            }
+
+                        }
+                    }
+                }
+                else if(p=="BEGIN")
+                {
+                    begin++;
+                }
+                else if(p=="END")
+                {
+                    begin--;
+                }
+                else if(p=="PRINT")
+                {
+                    for(int i=0; i<=begin; i++)
+                    {
+                        for(int j=0; j<k; j++)
+                        {
+                            if(i==STT[j])
+                            {
+                                cout<<identifier[j]<<"//"<<STT[j]<<" ";
+                            }
+                        }
+                    }
+                    cout<<endl;
+                }
+                else if(p=="RPRINT")
+                {
+                    for(int i=begin; i>=0; i--)
+                    {
+                        for(int j=k-1; j>=0; j--)
+                        {
+                            if(i==STT[j])
+                            {
+                                cout<<identifier[j]<<"//"<<STT[j]<<" ";
+                            }
+                        }
+                    }
+                    cout<<endl;
+                }
+                else if(p=="LOOKUP")
+                {
+                    p="";
+                    i+=2;
+                    for(; i<x; i++)
+                    {
+                        p+=s[i];
+                    }
+                    bool check = true;
+                    for(int j=0; j<k; j++)
+                    {
+                        if(p==identifier[j])
+                        {
+                            check = false;
+                            cout<<STT[j]<<endl;
+                        }
+                    }
+                    if(check)
+                    {
+                        Undeclared error(s);
+                        throw error;
+                    }
+                }
+            }
+        }
+    }
+    if(begin!=0)
+    {
+        if(begin>0)
+        {
+            UnclosedBlock error(begin);
+            throw error;
+        }
+        else
+        {
+            UnknownBlock error;
+            throw error;
+        }
+    }
+}

@@ -1,0 +1,77 @@
+# depslib dependency file v1.0
+1629029231 source:c:\users\minhp\c++\btl2\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	"task0.h"
+	"task1.h"
+	"task2.h"
+	"task3.h"
+	"task4.h"
+
+1621225801 c:\users\minhp\c++\btl2\task0.h
+	"SLLDataController.h"
+	"ArrayDataController.h"
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<string>
+
+1629027996 c:\users\minhp\c++\btl2\slldatacontroller.h
+	"dataStructure.h"
+	<vector>
+	<string>
+
+1621236861 c:\users\minhp\c++\btl2\datastructure.h
+	<iostream>
+	<string>
+	<vector>
+
+1629036569 c:\users\minhp\c++\btl2\arraydatacontroller.h
+	"dataStructure.h"
+	<vector>
+	<string>
+
+1621225808 c:\users\minhp\c++\btl2\task1.h
+	"ArrayDataController.h"
+	"thirdBattle.h"
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<string>
+
+1629027160 c:\users\minhp\c++\btl2\thirdbattle.h
+	"SLLDataController.h"
+	"ArrayDataController.h"
+	<vector>
+	<string>
+
+1621241560 c:\users\minhp\c++\btl2\task2.h
+	"SLLDataController.h"
+	"thirdBattle.h"
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<string>
+
+1621225816 c:\users\minhp\c++\btl2\task3.h
+	"SLLDataController.h"
+	"thirdBattle.h"
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<string>
+
+1621225827 c:\users\minhp\c++\btl2\task4.h
+	"SLLDataController.h"
+	"thirdBattle.h"
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<string>
+

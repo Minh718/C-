@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1619545377 source:c:\users\minhp\c++\rac\main.cpp
+	<iostream>
+	<string>
+	<fstream>
+	<math.h>
+
